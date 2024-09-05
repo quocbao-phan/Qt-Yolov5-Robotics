@@ -1,0 +1,322 @@
+void MainWindow::process_VIP()
+{
+    static int i = 0;
+
+
+    //std::cout << isBlueBox << " green " << isGreenBox << std::endl;
+    if (ui->lb_run_status->text() == "Running")
+    {
+
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 0))
+    {
+        if ((isBlueBox == false)&&(isGreenBox == false))
+        {
+            PCAMoving(PCAimage_main, classID, 0);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == false))
+        {
+            PCAMoving(PCAimage_main, classID, 0);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == true))
+        {
+            PCAMoving(PCAimage_1, classID_1, 1);
+        }
+        else if ((isBlueBox == false)&&(isGreenBox == true))
+        {
+            PCAMoving(PCAimage_2, classID_2, 1);
+        }
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 1))
+    {
+
+        state = 2;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 2))
+    {
+
+        if ((isBlueBox == false)&&(isGreenBox == false))
+        {
+            moveDown1(classID);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == false))
+        {
+            moveDown1(classID);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == true))
+        {
+            moveDown1(classID_1);
+        }
+        else if ((isBlueBox == false)&&(isGreenBox == true))
+        {
+            moveDown1(classID_2);
+        }
+
+        state = 3;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 3))
+    {
+        state = 4;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 4))
+    {
+        if (classID == 0)
+        {
+            ui->slider_Servo->setValue(55);
+        }
+        else
+        {
+            ui->slider_Servo->setValue(55);
+        }
+        if ((isBlueBox == false)&&(isGreenBox == false))
+        {
+            moveDown2(classID, typeID);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == false))
+        {
+            moveDown2(classID, typeID);
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == true))
+        {
+            moveDown2(classID_1, typeID);
+        }
+        else if ((isBlueBox == false)&&(isGreenBox == true))
+        {
+            moveDown2(classID_2, typeID);
+        }
+        state = 5;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 5))
+    {
+        state = 6;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 6))
+    {
+        ui->slider_Servo->setValue(20);
+        state = 7;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 7))
+    {
+        state = 8;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 8))
+    {
+        moveUp();
+        state = 9;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 9))
+    {
+        state = 10;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 10))
+    {
+        if ((isBlueBox == false)&&(isGreenBox == false))
+        {
+            moveToBlueBox();
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == false))
+        {
+            moveToGreenBox();
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == true))
+        {
+            moveToPlacePointArranged();
+            i++;
+        }
+        else if ((isBlueBox == false)&&(isGreenBox == true))
+        {
+            moveToPlacePointArranged();
+            i++;
+        }
+        state = 11;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 11))
+    {
+        state = 12;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 12))
+    {
+        moveDownToPlace();
+        state = 13;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 13))
+    {
+        state = 14;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 14))
+    {
+        ui->slider_Servo->setValue(55);
+        state = 15;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 15))
+    {
+        state = 16;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 16))
+    {
+        moveUp();
+        state = 17;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 17))
+    {
+        state = 18;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 18))
+    {
+        if ((isBlueBox == false)&&(isGreenBox == false))
+        {
+            on_btn_Home_clicked();
+            timerFinish->start(10000);
+            std::cout << "Bat dau timer " << std::endl;
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == false))
+        {
+            on_btn_Home_clicked();
+            timerFinish->start(10000);
+            std::cout << "Bat dau timer " << std::endl;
+        }
+        else if ((isBlueBox == true)&&(isGreenBox == true))
+        {
+            isBlueBox = false;
+        }
+        else if ((isBlueBox == false)&&(isGreenBox == true))
+        {
+            isGreenBox = false;
+            isBlueBox = false;
+        }
+        state = 19;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 19))
+    {
+        for (int j = 0; j < 200;j++)
+        {
+            timerProcessVip->stop();
+            emit sendPCArequest(0);
+        }
+        state = 20;
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 20))
+    {
+        for (int j = 0; j < 100;j++)
+        {
+            timerProcessVip->stop();
+            emit sendPCArequest(0);
+        }
+        state = 21;
+        timerFinish->start(10000);
+    }
+    else if ((ui->lb_run_status->text() == "Stop")&&(state == 21))
+    {
+        state = 0;
+
+        std::cout << "Bat dau timer " << std::endl;
+    }
+    ui->radioArrange->setDisabled(true);
+    ui->radioPickingUp->setDisabled(true);
+    if(i == 19){
+        timerProcessVip->stop();
+        FinishProcessArrange();
+        i = 0;
+    }
+}
+
+
+void MainWindow::FinishProcessArrange()
+{
+    isRunningProcess = false;
+
+    QMessageBox msgBox;
+    QPushButton *StopProcess = msgBox.addButton(tr("Stop Process"), QMessageBox::ActionRole);
+    QPushButton *WaitForClear = msgBox.addButton(tr("Wait For Clear"), QMessageBox::ActionRole);
+    //QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
+    msgBox.setText("Arranging area is full!");
+    msgBox.setInformativeText("What do you want to do next ?");
+    msgBox.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == StopProcess) {
+        on_btnStartProcess_clicked();
+    } else if (msgBox.clickedButton() == WaitForClear) {
+        QMessageBox msgBox1;
+        QPushButton *Done = msgBox1.addButton(tr("Done"), QMessageBox::ActionRole);
+        QPushButton *Cancel = msgBox1.addButton(tr("Cancel"), QMessageBox::ActionRole);
+        msgBox1.setText("Waiting for clear arranging area !");
+        msgBox1.setInformativeText("Clearing done ?");
+        msgBox1.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+        msgBox1.exec();
+        if (msgBox1.clickedButton() == Done)
+        {
+            moveToPlacePointArranged();
+            state = 12;
+            timerProcessVip->start(200);
+            isRunningProcess = true;
+            refillFlag = false;
+        }else if(msgBox1.clickedButton() == Cancel){
+            on_btnStartProcess_clicked();
+        }
+    }
+    timerFinish->stop();
+    std::cout << "Dung timer trong ham finishprocessArr " << std::endl;
+}
+
+
+void MainWindow::moveToPlacePointArranged()
+{
+    double set_speed = Speed_Picking;
+    static int offset =  0;
+    static int row = 0;
+
+    static int i = 0;
+    static int j = 0;
+
+
+    if (i == 6)
+    {
+        i = 0;
+        row += 40;
+        offset = 0;
+    }
+    //std::cout << "i = " << i << std::endl;
+    //std::cout << "j = " << j << std::endl;
+
+    QVector<double> set_position;
+    set_position.append(265.090 - row);
+    set_position.append(157.149 - offset);
+    set_position.append(-5.388);
+    set_position.append(-179.9992);
+    set_position.append(-0.0565);
+    set_position.append(3.0026);
+    yrc100micro_com.YRC1000microMoveCartesian(CMD_DATA_MOVE_COORDINATE_ROBOT,
+                                              CMD_HEADER_MOVE_INSTANCE_LINK_ABSOLUTE,CMD_DATA_MOVE_SPEED_TYPE_V_SPEED,set_speed,&set_position);
+
+    offset = offset + 30;
+    if(j==18)
+    {
+        row = 0;
+        offset = 0;
+        i = 0;
+        j=0;
+    }
+    i++;
+    j++;
+}
+void MainWindow::moveDownToPlace()
+{
+    double set_speed = 30;
+    QVector<double> set_position;
+    set_position.append(0);
+    set_position.append(0);
+    //    if (classID == 0)
+    //    {
+    set_position.append(-75);
+    //    }
+    //    else
+    //    {
+    //        set_position.append(-25);
+    //    }
+    set_position.append(0);
+    set_position.append(0);
+    set_position.append(0);
+    yrc100micro_com.YRC1000microMoveCartesian(CMD_DATA_MOVE_COORDINATE_ROBOT,
+                                              CMD_HEADER_MOVE_INSTANCE_STRAIGHT_INCREMENT,CMD_DATA_MOVE_SPEED_TYPE_V_SPEED,set_speed,&set_position);
+}

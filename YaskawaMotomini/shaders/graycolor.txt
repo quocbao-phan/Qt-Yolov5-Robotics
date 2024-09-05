@@ -1,0 +1,4 @@
+    m_materialInfo.Ambient = QVector3D( 0.625f, 0.625f, 0.625f );   // mau xung quanh QVector3D( 0.05f, 0.2f, 0.05f );
+    m_materialInfo.Diffuse = QVector3D( 0.3f, 0.3f, 0.3f );   // mau khuech tan QVector3D( 0.3f, 0.5f, 0.3f );
+    m_materialInfo.Specular = QVector3D( 0.3f, 0.3f, 0.3f );  // mau phan chieu QVector3D( 0.6f, 0.6f, 0.6f );
+    m_materialInfo.Shininess = 50.0f;                         // do sang bong (cang lon cang toi) 50.0f;
